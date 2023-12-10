@@ -1,0 +1,45 @@
+* {
+    color: rgba(211, 198, 170, 1);
+    font-weight: bold;
+    font-size: x-large;
+    outline: none;
+    background-clip: padding-box;
+    -gtk-toolbutton-icon-spacing: 4px;
+    -gtk-dialog-button-spacing: 4px;
+    -gtk-dialog-action-area-border: 0;
+    -gtk-outline-radius: 0;
+}
+
+#buttonbox_frame {
+    padding: 20px 0 0 0;
+}
+
+#buttonbox_frame button {
+    background-color: rgba(43, 51, 57, 0.75);
+    padding: 8px 15px;
+    min-width: 70px;
+}
+
+#buttonbox_frame button:active,
+#buttonbox_frame button:checked,
+#buttonbox_frame button:disabled,
+#buttonbox_frame button:hover {
+    background-color: rgba(43, 51, 57, 0.9);
+}
+
+#login_window #user_combobox,
+#login_window #prompt_entry {
+    padding: 8px 10px;
+    margin-bottom: 10px;
+    background-color: rgba(43, 51, 57, 0.5);
+    box-shadow: inset 0 -3px rgba(43, 51, 57, 0.75);
+}
+
+#login_window #user_combobox menu {
+    padding: 8px;
+    background-color: rgba(43, 51, 57, 0.4);
+}
+
+#login_window #user_combobox menuitem {
+    background-color: transparent;
+}
