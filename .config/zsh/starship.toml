@@ -1,18 +1,18 @@
 [username]
 format = " [╭─$user]($style)@"
-style_user = "#607767"
-style_root = "#607767"
+style_user = "#3f545e"
+style_root = "#3f545e"
 show_always = true
 
 [hostname]
 format = "[$hostname]($style) in "
-style = "#607767"
+style = "#3f545e"
 trim_at = "-"
 ssh_only = false
 disabled = false
 
 [directory]
-style = "#607767"
+style = "#3f545e"
 truncation_length = 0
 truncate_to_repo = true
 truncation_symbol = "repo: "
@@ -28,7 +28,7 @@ deleted = "x"
 disabled = true
 
 [character]
-success_symbol = " [╰─>](#607767)"
+success_symbol = " [╰─](#3f545e)"
 error_symbol = " [×](#bf616a)"
 
 [battery]
