@@ -52,7 +52,7 @@ function sym_link_or_exit() {
 
 
 BASE_PKGS="qtile python-psutil feh xorg lightdm lightdm-gtk-greeter kitty xdg-user-dirs rofi xclip btop tree thunar flameshot ttf-jetbrains-mono-nerd picom zsh starship pulseaudio alsa-utils neovim ripgrep fd npm wget unzip python-pynvim lazygit dunst playerctl"
-OPT_PKGS="keepassxc mpv discord mullvad-vpn-bin mullvad-browser-bin thunderbird-bin"
+OPT_PKGS="keepassxc mpv discord mullvad-vpn-bin thunderbird-bin"
 VIRT_PKGS="qemu-full virt-manager libvirt virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat libguestfs dmidecode"
 SYSTEM_DIRS=("$HOME/.oh-my-zsh/custom" "/etc/lightdm" "/usr/share/themes" "/usr/share/icons")
 TMP_DIR=$(mktemp -d)
@@ -75,7 +75,7 @@ function install_base_packages() {
 
 function install_optional_packages() {
   msg_info "Installing optional packages"
-  exec_or_exit paru -S $OPT_PKGS --needed --noconfirm
+  exec_or_exit paru -S $OPT_PKGS --needed
   msg_ok "Optional packages installed"
 }
 
