@@ -61,7 +61,7 @@ top_widgets_screen1 = [
     widget.Spacer(length=20),
     create_text_box(""),
     widget.Spacer(length=8, background=BG_1),
-    widget.CheckUpdates(colour_have_updates=COMMON_FG, distro="Arch_paru", execute="kitty -e paru", update_interval=3600),
+    widget.CheckUpdates(colour_have_updates=COMMON_FG,background=BG_1, distro="Arch_paru", execute="kitty -e paru", update_interval=3600),
     widget.Spacer(length=8, background=BG_1),
     AudioWidget(fontsize=16, background=BG_1),
     widget.Spacer(length=16, background=BG_1),

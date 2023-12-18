@@ -46,7 +46,7 @@ keys = [
     # Media keys
     Key([], "XF86AudioRaiseVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +5%"), desc="Volume up"),
     Key([], "XF86AudioLowerVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -5%"), desc="Volume down"),
-    Key([], "XF86AudioMute", lazy.spawn("pulsemixer --toggle-mute"), desc="Mute volume"),
+    Key([], "XF86AudioMute", lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle"), desc="Mute volume"),
     Key([], "XF86AudioPlay", lazy.spawn("playerctl play-pause"), desc="Play/Pause media"),
     Key([], "XF86AudioNext", lazy.spawn("playerctl next"), desc="Next media track"),
     Key([], "XF86AudioPrev", lazy.spawn("playerctl previous"), desc="Previous media track"),
