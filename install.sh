@@ -51,10 +51,10 @@ function sym_link_or_exit() {
 }
 
 
-BASE_PKGS="qtile python-psutil feh xorg lightdm lightdm-gtk-greeter kitty xdg-user-dirs rofi xclip btop tree thunar flameshot ttf-jetbrains-mono-nerd picom zsh starship pulseaudio alsa-utils neovim ripgrep fd npm wget unzip python-pynvim lazygit dunst playerctl"
+BASE_PKGS="qtile python-psutil feh xorg ly kitty xdg-user-dirs rofi xclip btop tree thunar flameshot ttf-jetbrains-mono-nerd picom zsh starship pulseaudio alsa-utils neovim ripgrep fd npm wget unzip python-pynvim lazygit dunst playerctl"
 OPT_PKGS="keepassxc mpv discord mullvad-vpn-bin thunderbird-bin"
 VIRT_PKGS="qemu-full virt-manager libvirt virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat libguestfs dmidecode"
-SYSTEM_DIRS=("$HOME/.oh-my-zsh/custom" "/etc/lightdm" "/usr/share/themes" "/usr/share/icons")
+SYSTEM_DIRS=("$HOME/.oh-my-zsh/custom" "/usr/share/themes" "/usr/share/icons")
 TMP_DIR=$(mktemp -d)
 
 exec_or_exit sudo pacman -S base-devel sudo --needed --noconfirm
@@ -97,15 +97,6 @@ function install_nvidia_drivers() {
     msg_ok "Nvidia Drivers installed"
 }
 
-function configure_lightdm() {
-  msg_info "Configuring LightDM"
-  exec_or_exit sudo systemctl enable lightdm
-  exec_or_exit sudo cp "$INITIAL_PWD/bin/lightdm.conf" "${SYSTEM_DIRS[1]}"
-  exec_or_exit sudo cp "$INITIAL_PWD/bin/lightdm-gtk-greeter.conf" "${SYSTEM_DIRS[1]}"
-  exec_or_exit sudo cp -R "$INITIAL_PWD/bin/z3ntile/" "${SYSTEM_DIRS[2]}"
-  msg_ok "LightDM configured"
-}
-
 function link_config_files() {
   msg_info "Linking configuration files"
   sym_link_or_exit ".config/" "$HOME"
@@ -117,11 +108,10 @@ function link_config_files() {
 function install_everforest_theme() {
     msg_info "Installing Theme"
     exec_or_exit git clone "https://github.com/Fausto-Korpsvart/Everforest-GTK-Theme.git" "$TMP_DIR/Everforest-GTK-Theme"
-    exec_or_exit sudo mv "$TMP_DIR/Everforest-GTK-Theme/themes/"* "${SYSTEM_DIRS[2]}"
-    exec_or_exit sudo mv "$TMP_DIR/Everforest-GTK-Theme/icons/"* "${SYSTEM_DIRS[3]}"
+    exec_or_exit sudo mv "$TMP_DIR/Everforest-GTK-Theme/themes/"* "${SYSTEM_DIRS[1]}"
+    exec_or_exit sudo mv "$TMP_DIR/Everforest-GTK-Theme/icons/"* "${SYSTEM_DIRS[2]}"
     msg_ok "Theme installed"
 }
-
 
 function install_omz() {
     msg_info "Installing OhMyZsh"
@@ -138,7 +128,6 @@ read -p "Install OhMyZsh & Plugins? (y/N): " omz_response
 if [[ $omz_response =~ ^[Yy]$ ]]; then
   install_omz
 fi
-configure_lightdm
 link_config_files
 install_everforest_theme
 
