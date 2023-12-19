@@ -164,4 +164,3 @@ class AudioWidget(GenPollText):
                 "ON1": "",
                 "MUTE": "󰖁"
             }.get(state, "")
-

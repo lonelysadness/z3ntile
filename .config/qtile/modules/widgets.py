@@ -3,6 +3,7 @@ from libqtile.config import Screen
 from libqtile.lazy import lazy
 from libqtile import hook, qtile
 from .audio_widget import AudioWidget
+from .windowname_widget import WindowName
 
 BG_1 = "#0F1212"
 BG_2 = "#202222"
@@ -54,7 +55,7 @@ top_widgets_screen1 = [
     widget.CurrentLayout(),
     create_text_box(""),
     widget.Spacer(),
-    widget.WindowName(format='  {name}',empty_group_string="Desktop", max_chars=130, width=bar.CALCULATED),
+    WindowName(format='  {name}', empty_group_string="Desktop", max_chars=130, width=bar.CALCULATED),
     widget.Spacer(),
     create_text_box(""),
     widget.Systray(padding=7),
@@ -72,6 +73,7 @@ top_widgets_screen1 = [
     widget.Spacer(length=18, background=BG_1),
 ]
 
+
 top_widgets_screen2 = [
     widget.Spacer(length=10, background=BG_1),
     create_image_widget("~/.config/qtile/assets/logo.png", margin=2, mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("sh -c ~/.config/rofi/scripts/power")}),
@@ -85,16 +87,9 @@ top_widgets_screen2 = [
     widget.CurrentLayout(),
     create_text_box(""),
     widget.Spacer(),
-    widget.WindowName(format='  {name}',empty_group_string="Desktop", max_chars=130, width=bar.CALCULATED),
+    WindowName(format='  {name}', empty_group_string="Desktop", max_chars=130, width=bar.CALCULATED),
     widget.Spacer(),
     create_text_box(""),
-    widget.Memory(format="󰘚 {MemUsed:.0f}{mm}",update_interval=5, background=BG_1),
-    create_text_box("",foreground="#D0DAF0", background=BG_1),
-    widget.CPU(format="󰍛 {freq_current}GHz {load_percent}%", background=BG_1),
-    create_text_box("",foreground="#D0DAF0", background=BG_1),
-    widget.TextBox(fmt="GPU", background=BG_1),
-    widget.NvidiaSensors(foreground=COMMON_FG, background=BG_1),
-    create_text_box("",foreground="#D0DAF0", background=BG_1),
     widget.TextBox(text=" ", background=BG_1),
     widget.Clock(format="%I:%M %p", background=BG_1),
     widget.Spacer(length=18, background=BG_1),

@@ -14,8 +14,8 @@ border_layout_properties = {**common_layout_properties, "border_width": 2}
 layouts = [
     layout.Columns(**border_layout_properties),
     layout.Tile(**border_layout_properties),
-    layout.Max(**common_layout_properties),
-    layout.Floating(**common_layout_properties),
+    layout.Max(**border_layout_properties),
+    layout.Floating(**border_layout_properties),
 ]
 
 

@@ -18,6 +18,7 @@ keys = [
     Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     Key([mod], "c", lazy.window.kill(), desc="Kill focused window"),
+    Key([mod], "t", lazy.window.toggle_floating()),
 
     # Window resizing and layout adjustments
     Key([mod, "shift"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
