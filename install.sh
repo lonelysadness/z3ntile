@@ -52,7 +52,7 @@ function sym_link_or_exit() {
 
 
 BASE_PKGS="qtile python-psutil feh xorg ly kitty xdg-user-dirs rofi xclip btop tree thunar flameshot ttf-jetbrains-mono-nerd picom zsh starship pulseaudio alsa-utils neovim ripgrep fd npm wget unzip python-pynvim lazygit dunst playerctl"
-OPT_PKGS="keepassxc mpv discord mullvad-vpn-bin thunderbird-bin"
+OPT_PKGS="keepassxc mpv discord mullvad-vpn-bin thunderbird-bin onlyoffice-bin"
 VIRT_PKGS="qemu-full virt-manager libvirt virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat libguestfs dmidecode"
 SYSTEM_DIRS=("$HOME/.oh-my-zsh/custom" "/usr/share/themes" "/usr/share/icons")
 TMP_DIR=$(mktemp -d)
@@ -70,6 +70,7 @@ function install_paru() {
 function install_base_packages() {
   msg_info "Installing base packages"
   exec_or_exit paru -S $BASE_PKGS --needed --noconfirm
+  exec_or_exit sudo systemctl enable ly
   msg_ok "Base packages installed"
 }
 
@@ -100,7 +101,7 @@ function install_nvidia_drivers() {
 function link_config_files() {
   msg_info "Linking configuration files"
   sym_link_or_exit ".config/" "$HOME"
-  sym_link_or_exit "Wallpaper/" "$HOME"
+  sym_link_or_exit ".wallpaper/" "$HOME"
   sym_link_or_exit "bin/.zshrc" "$HOME"
   msg_ok "Configuration files linked"
 }

@@ -1,4 +1,4 @@
 #!/bin/bash
 
-feh --bg-scale ~/Wallpaper/dark-ice.png &
+feh --bg-scale ~/.wallpaper/mountain.png &
 picom --config ~/.config/picom/picom.conf &
