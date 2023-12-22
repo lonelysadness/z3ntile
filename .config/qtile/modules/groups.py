@@ -8,7 +8,7 @@ def switch_to_group_screen(name: str):
     def inner(qtile) -> None:
         screen_index = 0 if name in ["1", "2", "3", "4"] else 1
         qtile.focus_screen(screen_index)
-        qtile.groups_map[name].cmd_toscreen()
+        qtile.groups_map[name].toscreen()
     return inner
 
 def move_window_to_group(group_name: str):
@@ -25,12 +25,12 @@ def move_window_to_group(group_name: str):
 def handle_screen_switch(qtile, target_screen, current_screen, target_group, current_group):
     """Function to handle screen switching logic when moving windows between groups."""
     if target_screen != current_screen:
-        qtile.cmd_to_screen(target_screen)
-        qtile.groups_map[target_group].cmd_toscreen()
-        qtile.cmd_to_screen(current_screen)
-        qtile.groups_map[current_group].cmd_toscreen()
+        qtile.to_screen(target_screen)
+        qtile.groups_map[target_group].toscreen()
+        qtile.to_screen(current_screen)
+        qtile.groups_map[current_group].toscreen()
     else:
-        qtile.groups_map[target_group].cmd_toscreen()
+        qtile.groups_map[target_group].toscreen()
 
 def get_keyboard_layout():
     """Function to retrieve the current keyboard layout."""
