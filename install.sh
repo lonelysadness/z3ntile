@@ -51,7 +51,7 @@ function sym_link_or_exit() {
 }
 
 
-BASE_PKGS="qtile python-psutil feh xorg ly kitty xdg-user-dirs rofi xclip btop tree thunar flameshot ttf-jetbrains-mono-nerd picom zsh starship pulseaudio alsa-utils neovim ripgrep fd npm wget unzip python-pynvim lazygit dunst playerctl"
+BASE_PKGS="qtile python-psutil feh xorg ly kitty python-dbus-next xdg-user-dirs rofi xclip btop tree thunar flameshot ttf-jetbrains-mono-nerd picom zsh starship pulseaudio alsa-utils neovim ripgrep fd npm wget unzip python-pynvim lazygit dunst playerctl"
 OPT_PKGS="keepassxc mpv discord mullvad-vpn-bin thunderbird-bin onlyoffice-bin"
 VIRT_PKGS="qemu-full virt-manager libvirt virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat libguestfs dmidecode"
 SYSTEM_DIRS=("$HOME/.oh-my-zsh/custom" "/usr/share/themes" "/usr/share/icons")
