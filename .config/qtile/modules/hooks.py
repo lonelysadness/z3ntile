@@ -16,8 +16,10 @@ def autostart():
 def setup_screen():
     """Setup initial screen and group configuration."""
     screen_group_pairs = [(0, "1"), (1, "5")]
-    for screen, group in screen_group_pairs:
-        if group in qtile.groups_map:
-            qtile.cmd_to_screen(screen)
-            qtile.groups_map[group].cmd_toscreen(toggle=False)
+    for screen_index, group_name in screen_group_pairs:
+        if group_name in qtile.groups_map:
+            screen = qtile.screens[screen_index]
+            group = qtile.groups_map[group_name]
+            screen.set_group(group)
+
 
