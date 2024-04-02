@@ -39,7 +39,9 @@ keys = [
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
 
     # Application launchers
-    Key([mod], "r", lazy.spawn("rofi -show drun"), desc="Launch application launcher"),
+    Key([mod], "r", lazy.spawn("rofi -show drun -config ~/.config/rofi/apps.rasi"), desc="Launch application launcher"),
+    Key([mod], "v", lazy.spawn("sh -c ~/.config/rofi/scripts/volume"), desc="Launch volume launcher"),
+    Key([mod], "i", lazy.spawn("sh -c ~/.config/rofi/scripts/network"), desc="Launch network launcher"),
     Key([mod], "e", lazy.spawn("thunar"), desc="Open file manager"),
     Key([mod], "s", lazy.spawn("flameshot gui"), desc="Take a screenshot"),
     Key([mod], "p", lazy.spawn("sh -c ~/.config/rofi/scripts/power"), desc="powermenu"),

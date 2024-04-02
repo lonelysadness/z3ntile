@@ -2,8 +2,8 @@ from libqtile import layout
 
 # Define common layout properties
 common_layout_properties = {
-    "border_focus": "#B2BEBC",
-    "border_normal": "#B2BEBC",
+    "border_focus": "#ebdbb2",
+    "border_normal": "#ebdbb2",
     "margin": 4
 }
 

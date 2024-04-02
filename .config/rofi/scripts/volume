@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+
+theme="~/.config/rofi/volume.rasi"
+
+sink="$(pactl get-default-sink)"
+
+speaker="$(pactl get-sink-volume $sink | grep 'Volume' | head -n 1 | awk '{print $5}' | tr -d '%')"
+mic="$(pactl get-source-volume $(pactl get-default-source) | grep 'Volume' | head -n 1 | awk '{print $5}' | tr -d '%')"
+
+active=""
+urgent=""
+
+if pactl get-sink-mute $sink | grep -q 'yes' || [ "$speaker" -eq 0 ]; then
+    urgent="-u 2"
+    stext='Mute'
+    sicon='󰖁'
+else
+    active="-a 2"
+    stext='Unmute'
+    sicon='󰕿'
+fi
+
+if pactl get-source-mute $(pactl get-default-source) | grep -q 'yes' || [ "$mic" -eq 0 ]; then
+    [ -n "$urgent" ] && urgent+=",3" || urgent="-u 3"
+    mtext='Mute'
+    micon=''
+else
+    [ -n "$active" ] && active+=",3" || active="-a 3"
+    mtext='Unmute'
+    micon=''
+fi
+
+prompt="S:$stext, M:$mtext"
+mesg="Speaker: $speaker%, Mic: $mic%"
+
+
+option_1="󰕾"
+option_2=""
+option_3="$sicon"
+option_4="$micon"
+option_5="󰓃"
+
+rofi_cmd() {
+    rofi -dmenu \
+        -p "$prompt" \
+        -mesg "$mesg" \
+        ${active} ${urgent} \
+        -markup-rows \
+        -theme ${theme}
+}
+
+run_rofi() {
+    echo -e "$option_1\n$option_2\n$option_3\n$option_4\n$option_5" | rofi_cmd
+}
+
+run_cmd() {
+    case "$1" in
+        '--opt1') pactl set-sink-volume $sink +5% ;;
+        '--opt2') pactl set-sink-volume $sink -5% ;;
+        '--opt3') pactl set-sink-mute $sink toggle ;;
+        '--opt4') pactl set-source-mute $(pactl get-default-source) toggle ;;
+        '--opt5') pavucontrol ;;
+    esac
+}
+
+chosen="$(run_rofi)"
+case ${chosen} in
+    $option_1) run_cmd --opt1 ;;
+    $option_2) run_cmd --opt2 ;;
+    $option_3) run_cmd --opt3 ;;
+    $option_4) run_cmd --opt4 ;;
+    $option_5) run_cmd --opt5 ;;
+esac
+

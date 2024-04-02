@@ -51,10 +51,10 @@ function sym_link_or_exit() {
 }
 
 
-BASE_PKGS="qtile python-psutil feh xorg ly kitty python-dbus-next xdg-user-dirs rofi xclip btop tree thunar flameshot ttf-jetbrains-mono-nerd picom zsh starship pulseaudio alsa-utils neovim ripgrep fd npm wget unzip python-pynvim lazygit dunst playerctl"
-OPT_PKGS="keepassxc mpv discord mullvad-vpn-bin thunderbird-bin onlyoffice-bin"
+BASE_PKGS="qtile python-psutil feh xorg ly kitty python-dbus-next xdg-user-dirs rofi xclip btop tree thunar flameshot ttf-jetbrains-mono-nerd picom zsh starship pulseaudio alsa-utils neovim ripgrep fd npm wget unzip python-pynvim lazygit dunst playerctl gruvbox-dark-gtk"
+OPT_PKGS="keepassxc mpv discord mullvad-vpn-bin thunderbird-bin logseq-desktop-bin onlyoffice-bin dnsutils transmission timeshift"
 VIRT_PKGS="qemu-full virt-manager libvirt virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat libguestfs dmidecode"
-SYSTEM_DIRS=("$HOME/.oh-my-zsh/custom" "/usr/share/themes" "/usr/share/icons")
+SYSTEM_DIRS=("$HOME/.oh-my-zsh/custom" "/usr/share/icons/gruvbox-icons/")
 TMP_DIR=$(mktemp -d)
 
 exec_or_exit sudo pacman -S base-devel sudo --needed --noconfirm
@@ -106,17 +106,16 @@ function link_config_files() {
   msg_ok "Configuration files linked"
 }
 
-function install_everforest_theme() {
+function install_gruvbox_theme() {
     msg_info "Installing Theme"
-    exec_or_exit git clone "https://github.com/Fausto-Korpsvart/Everforest-GTK-Theme.git" "$TMP_DIR/Everforest-GTK-Theme"
-    exec_or_exit sudo mv "$TMP_DIR/Everforest-GTK-Theme/themes/"* "${SYSTEM_DIRS[1]}"
-    exec_or_exit sudo mv "$TMP_DIR/Everforest-GTK-Theme/icons/"* "${SYSTEM_DIRS[2]}"
+    exec_or_exit git clone "https://github.com/SylEleuth/gruvbox-plus-icon-pack.git" "$TMP_DIR/gruvbox-icons"
+    exec_or_exit sudo mkdir "${SYSTEM_DIRS[1]}"
+    exec_or_exit sudo mv "$TMP_DIR/gruvbox-icons/Gruvbox-Plus-Dark/"* "${SYSTEM_DIRS[1]}"
     msg_ok "Theme installed"
 }
 
 function install_omz() {
     msg_info "Installing OhMyZsh"
-    exec_or_exit export RUNZSH=no && sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattend
     exec_or_exit git clone "https://github.com/zsh-users/zsh-autosuggestions" "${SYSTEM_DIRS[0]}/plugins/zsh-autosuggestions"
     exec_or_exit git clone "https://github.com/zsh-users/zsh-syntax-highlighting.git" "${SYSTEM_DIRS[0]}/plugins/zsh-syntax-highlighting"
     msg_ok "OhMyZsh installed"
@@ -129,8 +128,9 @@ read -p "Install OhMyZsh & Plugins? (y/N): " omz_response
 if [[ $omz_response =~ ^[Yy]$ ]]; then
   install_omz
 fi
+
 link_config_files
-install_everforest_theme
+install_gruvbox_theme
 
 read -p "Install Nvidia drivers? (y/N): " nvidia_response
 if [[ $nvidia_response =~ ^[Yy]$ ]]; then

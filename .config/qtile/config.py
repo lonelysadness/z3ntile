@@ -20,6 +20,6 @@ widget_defaults = dict(
     font="JetBrainsMono Nerd Font Bold",
     fontsize=14,
     padding=3,
-    background="#202222",
-    foreground="#3f545e",
+    background="#3c3836",
+    foreground="#ebdbb2",
 )

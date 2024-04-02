@@ -3,16 +3,16 @@ from libqtile.widget import GenPollText
 
 class AudioWidget(GenPollText):
     colors = {
-        "ON3": "#98FB98",
-        "ON2": "#86cf86",
-        "ON1": "#4f804f",
-        "MUTE": "#BF616A",
-        "REC": "#98FB98",
+        "ON3": "#b8bb26",  # Jaune vif pour ON3
+        "ON2": "#fabd2f",  # Jaune orange pour ON2
+        "ON1": "#98971a",  # Vert olive pour ON1
+        "MUTE": "#cc241d",  # Rouge pour MUTE
+        "REC": "#b8bb26",  # Jaune vif pour REC
     }
 
     def __init__(self, **config):
         config.setdefault('update_interval', 1)
-        config.setdefault('background', "#0F1212")
+        config.setdefault('background', "#3c3836")
         config.setdefault('font', "JetBrainsMono Nerd Font Bold")
         config.setdefault('fontsize', 12)
         super().__init__(**config)

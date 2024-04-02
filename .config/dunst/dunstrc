@@ -35,7 +35,7 @@
     icon_position = left
     min_icon_size = 0
     max_icon_size = 32
-    icon_path = /usr/share/icons/Everforest-Dark/status/32:/usr/share/icons/Everforest-Dark/devices/32
+    icon_path = /usr/share/icons/gruvbox-icons/status/32:/usr/share/icons/gruvbox-icons/devices/32
     sticky_history = yes
     history_length = 20
     always_run_script = true
@@ -49,20 +49,19 @@
     mouse_right_click = close_all
 
 [urgency_low]
-foreground = "#86918A"
-background = "#232A2E"
-frame_color = "#232A2E"
+foreground = "#bdae93"
+background = "#32302f"
+frame_color = "#3c3836" 
 timeout = 10
 
 [urgency_normal]
-background = "#232A2E"
-foreground = "#86918A"
-frame_color = "#232A2E"
+background = "#32302f"
+foreground = "#ebdbb2"
+frame_color = "#3c3836"
 timeout = 10
 
 [urgency_critical]
-background = "#232A2E"
-foreground = "#86918A"
-frame_color = "#232A2E"
+background = "#3c3836"
+foreground = "#fb4934"
+frame_color = "#3c3836"
 timeout = 10
-

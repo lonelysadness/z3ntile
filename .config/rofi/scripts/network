@@ -1,0 +1,148 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+theme="~/.config/rofi/network.rasi"
+theme2="~/.config/rofi/network-2.rasi"
+prompt="~/.config/rofi/prompt.rasi"
+
+notify() {
+    local urgency="$1"
+    local summary="$2"
+    local message="$3"
+
+    if command -v notify-send &> /dev/null; then
+        case "$urgency" in
+            "low")
+                notify-send -u low "$summary" "$message"
+                ;;
+            "normal")
+                notify-send -u normal "$summary" "$message"
+                ;;
+            "critical")
+                notify-send -u critical "$summary" "$message"
+                ;;
+        esac
+    else
+        echo "notify-send not found. Please install it to enable notifications."
+    fi
+}
+
+
+get_interfaces() {
+    wifi_interface=$(ip link show up | awk '/wlan/ {print $2}' | tr -d ':')
+    ethernet_interface=$(ip link show up | awk '/en/ {print $2}' | tr -d ':')
+}
+
+get_active_ethernet_info() {
+    default_interface=$(ip route | awk '/default/ {print $5; exit}')
+    [[ -z "$default_interface" ]] && echo "No active Ethernet interface found." && return
+
+    ip_addr=$(ip -4 addr show "$default_interface" | awk -F'[/ ]+' '/inet/ {print $3}')
+    subnet_mask=$(ip -4 addr show "$default_interface" | awk -F'[/ ]+' '/inet/ {print $5}')
+    gateway=$(ip route | awk "/default.*$default_interface/ {print \$3}")
+    dns_servers=$(awk '/^nameserver/ {printf "%s ", $2}' /etc/resolv.conf)
+    interface_state=$(cat "/sys/class/net/$default_interface/operstate")
+    tx_packets=$(cat "/sys/class/net/$default_interface/statistics/tx_packets")
+    rx_packets=$(cat "/sys/class/net/$default_interface/statistics/rx_packets")
+    mac_address=$(cat "/sys/class/net/$default_interface/address")
+
+    printf "Interface: %s\nIP Address: %s\nSubnet Mask: %s\nGateway: %s\nDNS Servers: %s\nInterface State: %s\nTransmitted Packets: %s\nReceived Packets: %s\nMAC Address: %s\n" \
+        "$default_interface" "$ip_addr" "$subnet_mask" "$gateway" "$dns_servers" "$interface_state" "$tx_packets" "$rx_packets" "$mac_address"
+}
+
+check_wireless() {
+    [[ -z "$wifi_interface" ]] && notify "critical" "Wi-Fi Error" "No Wi-Fi interfaces found." && return 1
+    return 0
+}
+
+connect_wifi() {
+    local ssid pass
+    ssid=$(nmcli -t -f IN-USE,SSID,SECURITY,BARS device wifi list | rofi -dmenu -i -p "Select Network:" -theme "$theme2" | awk '{print $2}')
+    [[ -z "$ssid" ]] && notify "critical" "Wi-Fi Connection" "Operation cancelled." && return
+    
+    pass=$(rofi -dmenu -password -p "Enter password for $ssid:" -theme-str '*{prompt-text: "Password";}' -theme "$prompt")
+    if nmcli device wifi connect "$ssid" password "$pass"; then
+        notify "normal" "Wi-Fi Connection" "Connected to $ssid"
+    else
+        notify "critical" "Wi-Fi Connection" "Failed to connect to $ssid"
+    fi
+}
+
+manual_wifi_connection() {
+    local ssid pass
+    ssid=$(rofi -dmenu -p "Enter SSID:" -theme-str '*{prompt-text: "SSID";}' -theme "$prompt")
+    pass=$(rofi -dmenu -password -p "Enter password for $ssid:" -theme-str '*{prompt-text: "Password";}' -theme "$prompt")
+    if nmcli device wifi connect "$ssid" password "$pass"; then
+        notify "normal" "Wi-Fi Connection" "Connected to $ssid"
+    else
+        notify "critical" "Wi-Fi Connection" "Failed to connect to $ssid"
+    fi
+}
+
+restart_network() {
+    local pass
+    pass=$(rofi -dmenu -password -p "Enter sudo password:" -theme-str '*{prompt-text: "Sudo Password";}' -theme "$prompt") 
+
+    if [[ -n "$pass" ]]; then
+        if command -v mullvad &> /dev/null; then
+            echo "$pass" | sudo -S systemctl restart systemd-networkd && mullvad disconnect && sleep 2 && mullvad connect && notify "normal" "Network" "Restarted the network."
+        else
+            echo "$pass" | sudo -S systemctl restart systemd-networkd && notify "normal" "Network" "Restarted the network."
+        fi
+    else
+        notify "critical" "Network" "Failed to restart the network. No password provided."
+    fi
+}
+
+
+## Menus
+
+wifi_menu() {
+    check_wireless || return
+    
+    local choice
+    choice=$(printf "Connect to Network\nManual Connection\n󰓕\n" | rofi -dmenu -i -p "Wi-Fi Menu:" -theme "$theme")
+    case "$choice" in
+        "Connect to Network") connect_wifi ;;
+        "Manual Connection") manual_wifi_connection ;;
+        "󰓕") main_menu ;;
+        *) notify "critical" "Error" "Invalid option." ;;
+    esac
+}
+
+ethernet_menu() {
+    local choice
+    choice=$(printf "\n󰑓\n󰓕\n" | rofi -dmenu -i -p "Ethernet Menu:" -theme "$theme")
+    case "$choice" in
+        "") get_active_ethernet_info | rofi -dmenu -i -p "Ethernet Info:" -theme "$theme2" ;;
+        "󰑓") restart_network ;;
+        "󰓕") main_menu ;;
+        *) notify "critical" "Error" "Invalid option." ;;
+    esac
+}
+
+main_menu() {
+    get_interfaces
+    
+    local wifi_icon ethernet_icon active urgent
+    wifi_icon=$([[ -z "$wifi_interface" ]] && echo "󰖪" || echo "")
+    ethernet_icon=$([[ -z "$ethernet_interface" ]] && echo "󰲛" || echo "󰲝")
+    
+    active=$([[ -n "$wifi_interface" ]] && echo "-a 0" || [[ -n "$ethernet_interface" ]] && echo "-a 1")
+    urgent=$([[ -z "$wifi_interface" ]] && echo "-u 0" || [[ -z "$ethernet_interface" ]] && echo "-u 1")
+    
+    local choice
+    choice=$(printf "%s\n%s\n󰗼\n" "$wifi_icon" "$ethernet_icon" | 
+        rofi -dmenu -i -p "Network Manager:" -theme "$theme" ${active} ${urgent} -markup-rows)
+    
+    case "$choice" in
+        "$wifi_icon") wifi_menu ;;
+        "$ethernet_icon") ethernet_menu ;;
+        "󰗼") exit 0 ;;
+        *) notify "critical" "Error" "Invalid option." ;;
+    esac
+}
+
+main_menu
+

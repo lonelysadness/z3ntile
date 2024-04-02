@@ -1,22 +1,3 @@
-[username]
-format = " [╭─$user]($style)@"
-style_user = "#3f545e"
-style_root = "#3f545e"
-show_always = true
-
-[hostname]
-format = "[$hostname]($style) in "
-style = "#3f545e"
-trim_at = "-"
-ssh_only = false
-disabled = false
-
-[directory]
-style = "#3f545e"
-truncation_length = 0
-truncate_to_repo = true
-truncation_symbol = "repo: "
-
 [git_status]
 style = "white"
 ahead = "⇡${count}"
@@ -27,10 +8,6 @@ deleted = "x"
 [cmd_duration]
 disabled = true
 
-[character]
-success_symbol = " [╰─](#3f545e)"
-error_symbol = " [×](#bf616a)"
-
 [battery]
 disabled = true
 
@@ -40,10 +17,6 @@ style = "#81a1c1"
 
 [git_branch]
 symbol = " "
-style = "#81a1c1"
-
-[package]
-symbol = "📦 "
 style = "#81a1c1"
 
 [php]
