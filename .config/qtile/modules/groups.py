@@ -1,5 +1,5 @@
 from libqtile.config import Key, Group
-from libqtile.command import lazy
+from libqtile.lazy import lazy  # Updated import path for lazy
 from .keys import keys, mod
 import subprocess
 
@@ -18,8 +18,9 @@ def move_window_to_group(group_name: str):
         current_screen = qtile.current_screen.index
         target_screen = 0 if group_name in ["1", "2", "3", "4"] else 1
 
-        qtile.current_window.togroup(group_name)
-        handle_screen_switch(qtile, target_screen, current_screen, group_name, current_group)
+        if qtile.current_window:  # Check if current_window is not None
+            qtile.current_window.togroup(group_name)
+            handle_screen_switch(qtile, target_screen, current_screen, group_name, current_group)
     return inner
 
 def handle_screen_switch(qtile, target_screen, current_screen, target_group, current_group):
