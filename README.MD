@@ -15,7 +15,9 @@ chmod +x install.sh
 ```
 
 ![z3ntile wp1](https://raw.githubusercontent.com/lonelysadness/z3ntile/main/screenshots/wp1.png)
-![z3ntile wp1](https://raw.githubusercontent.com/lonelysadness/z3ntile/main/screenshots/wp2.png)
+![z3ntile wp2](https://raw.githubusercontent.com/lonelysadness/z3ntile/main/screenshots/wp2.png)
+![z3ntile wp3](https://raw.githubusercontent.com/lonelysadness/z3ntile/main/screenshots/wp3.png)
+![z3ntile wp4](https://raw.githubusercontent.com/lonelysadness/z3ntile/main/screenshots/wp4.png)
 
 ## Keyboard Shortcuts
 
