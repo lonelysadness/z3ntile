@@ -1,9 +1,10 @@
 from libqtile import layout
+from libqtile.config import Match
 
 # Define common layout properties
 common_layout_properties = {
     "border_focus": "#ebdbb2",
-    "border_normal": "#666666",
+    "border_normal": "#3d4555",
     "margin": 4
 }
 
@@ -18,3 +19,12 @@ layouts = [
     layout.Floating(**common_layout_properties),
 ]
 
+
+floating_layout = layout.Floating(
+	border_focus="#ebdbb2",
+	border_normal="#3d4555",
+	border_width=2,
+    float_rules=[
+        *layout.Floating.default_float_rules,
+    ]
+)

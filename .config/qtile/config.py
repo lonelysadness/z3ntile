@@ -1,9 +1,11 @@
 from modules.keys import keys, mod
 from modules.groups import groups
-from modules.layouts import layouts
+from modules.layouts import layouts, floating_layout
 from modules.mouse import mouse
 from modules.hooks import autostart
 from modules.widgets import screens
+from libqtile import layout
+from libqtile.config import Match
 
 follow_mouse_focus = True
 bring_front_click = False
@@ -23,3 +25,4 @@ widget_defaults = dict(
     background="#3c3836",
     foreground="#ebdbb2",
 )
+
