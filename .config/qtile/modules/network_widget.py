@@ -1,4 +1,4 @@
-import subprocess
+import urllib.request
 from libqtile.widget import GenPollText
 from libqtile import qtile
 
@@ -29,14 +29,22 @@ class InternetStatusWidget(GenPollText):
         return self.get_internet_status()
 
     def get_internet_status(self):
-        cmd = "ping -c 1 8.8.8.8 > /dev/null 2>&1; echo $?"
-        status = subprocess.getoutput(cmd)
-        if status == "0":
+        if self.is_connected():
             return f"<span color='{self.colors['CONNECTED']}'>{self.icons['CONNECTED']}</span>"
         else:
             return f"<span color='{self.colors['DISCONNECTED']}'>{self.icons['DISCONNECTED']}</span>"
 
+    def is_connected(self):
+        try:
+            # Check internet connection by opening a URL
+            urllib.request.urlopen("http://clients3.google.com/generate_204", timeout=2)
+            return True
+        except Exception:
+            return False
+
     def open_network_script(self):
         qtile.cmd_spawn('/bin/sh -c "~/.config/rofi/scripts/network"')
 
+# Example usage in your qtile config
+internet_widget = InternetStatusWidget()
 
